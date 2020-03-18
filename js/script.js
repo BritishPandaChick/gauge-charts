@@ -5,15 +5,65 @@ window.onload = function(){
 
     //dimensions 
     var W = canvas.width; 
-    var H = canvas.height;  
+    var H = canvas.height;
+    //Variables
+    var degrees = 0;
+    var color = "lightblue";
+    var bgcolor = "#222";
 
-    //gauge will be a simple arc 
-    //lets draw a 200 degree arc, we need to specify degrees in radians 
-    var degrees = 200;
-    //Angle in radians = angle in degrees * PI / 180 
-    var radians = degrees * this.Math.PI / 180;
-    ctx.beginPath();
-    ctx.strokeStyle = "lightgreen";
-    ctx.arc(x, y, radius, 0, radians, false);
-    ctx.stroke();
+    function init(){
+        //Clear the canvas everytime a chart is drawn 
+        ctx.clearRect(0, 0, W, H);
+
+        //Background 260 degree arc 
+        ctx.beginPath();
+        ctx.strokeStyle = bgcolor;
+        ctx.lineWidth = 30;
+        ctx.arc(W/2, H/2, 100, 0, Math.PI*2, false); //you can see the arc now 
+        ctx.stroke();
+
+        //gauge will be a simple arc 
+        //lets draw a 200 degree arc, we need to specify degrees in radians 
+        var degrees = 200;
+        //Angle in radians = angle in degrees * PI / 180 
+        var radians = degrees * this.Math.PI / 180;
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 30;
+        //Arc starts from the rightmost end. If we deduct 90 degees from the angles 
+        //the arc will start from the topmost end 
+        ctx.arc(W/2, H/2, 100, 0 - 90*this.Math.PI/180, radians - 90 * Math.PI/180, false); //you can see the arc now 
+        //you can see the arc now 
+        ctx.stroke();
+    }
+    
+    function draw(){
+        //random degree from 0 to 360
+        new_degrees = Math.round(Math.random()*360);
+        var difference = new_degrees - degrees;
+        //This will animate the gauge to new positions 
+        //This animation will take 1 second 
+        //time for each frame 1 sec / difference in degrees
+        animation_loop = setInterval(animate_to, 1000/difference);
+    }
+
+    //function to make the chart move to new degrees 
+    function animate_to(){
+        if(degrees < new_degrees) {
+            degrees++;
+        } else {
+            degrees--;
+
+            if(degrees == new_degrees){ //clear animation loop if degrees reaches to new_degree
+                clearInterval(animation_loop);
+            }
+        }
+        init();
+    }
+
+    //Lets add some animation for un
+    draw();
+    redraw_loop = setInterval(draw, 2000); //Draw a new chart every 2 seconds 
+
+
 }
