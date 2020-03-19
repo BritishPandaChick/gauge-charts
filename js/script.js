@@ -8,8 +8,12 @@ window.onload = function(){
     var H = canvas.height;
     //Variables
     var degrees = 0;
-    var color = "lightblue";
+    var new_degrees = 0;
+    var difference = 0;
+    var color = "lightgreen"; //green looks better
     var bgcolor = "#222";
+    var text;
+    var animation_loop, redraw_loop;
 
     function init(){
         //Clear the canvas everytime a chart is drawn 
@@ -35,12 +39,28 @@ window.onload = function(){
         ctx.arc(W/2, H/2, 100, 0 - 90*this.Math.PI/180, radians - 90 * Math.PI/180, false); //you can see the arc now 
         //you can see the arc now 
         ctx.stroke();
+
+        //Lets add the text
+        ctx.fillStyle = color;
+        ctx.font = "50px arial"; 
+        text = Math.floor(degrees/360*100) + "%";
+        //Let's center the text 
+        //deducting half of text width from position x 
+        text_width = ctx.measureText(text).width;
+        //adding manual value to position y
+        //be measured easily. There are hacks but we will keep it manual for now.
+        ctx.fillText(text, W/2 - text_width/2, H/2);
     }
     
     function draw(){
+        //Cancel any movement animation if a new chart is requested
+        if(typeof animation_loop != undefined) {
+            clearInterval(animation_loop);
+        }
+
         //random degree from 0 to 360
         new_degrees = Math.round(Math.random()*360);
-        var difference = new_degrees - degrees;
+        difference = new_degrees - degrees;
         //This will animate the gauge to new positions 
         //This animation will take 1 second 
         //time for each frame 1 sec / difference in degrees
@@ -49,14 +69,15 @@ window.onload = function(){
 
     //function to make the chart move to new degrees 
     function animate_to(){
+        //clear animation loop if degrees reaches to new_degrees
+        if(degrees == new_degrees){
+            clearInterval(animation_loop);
+        }
+
         if(degrees < new_degrees) {
             degrees++;
         } else {
             degrees--;
-
-            if(degrees == new_degrees){ //clear animation loop if degrees reaches to new_degree
-                clearInterval(animation_loop);
-            }
         }
         init();
     }
