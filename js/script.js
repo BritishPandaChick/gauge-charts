@@ -10,7 +10,7 @@ window.onload = function(){
     var degrees = 0;
     var new_degrees = 0;
     var difference = 0;
-    var color = "lightgreen"; //green looks better
+    var color = "lightgreen"; //green or blue can work
     var bgcolor = "#222";
     var text;
     var animation_loop, redraw_loop;
@@ -27,8 +27,6 @@ window.onload = function(){
         ctx.stroke();
 
         //gauge will be a simple arc 
-        //lets draw a 200 degree arc, we need to specify degrees in radians 
-        var degrees = 200;
         //Angle in radians = angle in degrees * PI / 180 
         var radians = degrees * this.Math.PI / 180;
         ctx.beginPath();
@@ -36,7 +34,7 @@ window.onload = function(){
         ctx.lineWidth = 30;
         //Arc starts from the rightmost end. If we deduct 90 degees from the angles 
         //the arc will start from the topmost end 
-        ctx.arc(W/2, H/2, 100, 0 - 90*this.Math.PI/180, radians - 90 * Math.PI/180, false); //you can see the arc now 
+        ctx.arc(W/2, H/2, 100, 0 - 90*Math.PI/180, radians - 90 * Math.PI/180, false); //you can see the arc now 
         //you can see the arc now 
         ctx.stroke();
 
@@ -85,6 +83,4 @@ window.onload = function(){
     //Lets add some animation for un
     draw();
     redraw_loop = setInterval(draw, 2000); //Draw a new chart every 2 seconds 
-
-
 }
