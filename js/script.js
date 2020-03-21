@@ -28,7 +28,7 @@ window.onload = function(){
 
         //gauge will be a simple arc 
         //Angle in radians = angle in degrees * PI / 180 
-        var radians = degrees * this.Math.PI / 180;
+        var radians = degrees * Math.PI / 180;
         ctx.beginPath();
         ctx.strokeStyle = color;
         ctx.lineWidth = 30;
@@ -40,14 +40,14 @@ window.onload = function(){
 
         //Lets add the text
         ctx.fillStyle = color;
-        ctx.font = "50px arial"; 
+        ctx.font = "50px bebas"; 
         text = Math.floor(degrees/360*100) + "%";
         //Let's center the text 
         //deducting half of text width from position x 
         text_width = ctx.measureText(text).width;
         //adding manual value to position y
         //be measured easily. There are hacks but we will keep it manual for now.
-        ctx.fillText(text, W/2 - text_width/2, H/2);
+        ctx.fillText(text, W/2 - text_width/2, H/2 + 15);
     }
     
     function draw(){
